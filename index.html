@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoLive Dashboard | Login</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="config.js"></script>
+</head>
+<body class="landing">
+  <main class="login-card">
+    <div class="logo-stack">
+      <div class="logo-shell" aria-hidden="true">
+        <img src="assets/logo.png" alt="GeoLive logo" />
+      </div>
+      <h1>GeoLive</h1>
+      <p class="login-subtitle">
+        Next-gen dashboard for Discord communities.<br />
+        Real-time data visualization.
+      </p>
+    </div>
+    <button id="loginBtn" class="btn-primary login-btn" type="button">
+      <span>LOGIN WITH DISCORD</span>
+      <span class="login-arrow">&#8594;</span>
+    </button>
+    <p class="terms">By continuing, you agree to the Terms of Service.</p>
+  </main>
+  <script type="module">
+    import { getOAuthConfig } from './api.js';
+
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const oauth = await getOAuthConfig();
+      const redirect = encodeURIComponent(oauth.redirectUri);
+      const scope = encodeURIComponent(oauth.scope);
+      window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${oauth.clientId}&redirect_uri=${redirect}&response_type=token&scope=${scope}`;
+    });
+  </script>
+</body>
+</html>
