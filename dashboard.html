@@ -156,55 +156,57 @@
     import { handleOAuthRedirect } from './oauth.js';
     import { requestLocation } from './location.js';
 
-    handleOAuthRedirect();
-    ensureAuthenticated();
-    hydrateHero();
-    hydrateUserBadge();
-    initGlow();
+    (async () => {
+      await handleOAuthRedirect();
+      ensureAuthenticated();
+      hydrateHero();
+      hydrateUserBadge();
+      initGlow();
 
-    document.getElementById('logoutBtn').addEventListener('click', logout);
+      document.getElementById('logoutBtn').addEventListener('click', logout);
 
-    const overlay = document.getElementById('locationOverlay');
-    const message = document.getElementById('locationMessage');
-    const button = document.getElementById('locationBtn');
-    let liveFeedStarted = false;
+      const overlay = document.getElementById('locationOverlay');
+      const message = document.getElementById('locationMessage');
+      const button = document.getElementById('locationBtn');
+      let liveFeedStarted = false;
 
-    function showOverlay(text) {
-      if (text && message) message.textContent = text;
-      if (overlay) overlay.classList.add('visible');
-    }
-
-    function hideOverlay() {
-      if (overlay) overlay.classList.remove('visible');
-    }
-
-    async function handleLocationRequest() {
-      if (message) message.textContent = 'Requesting location...';
-      const coords = await requestLocation();
-      if (coords) {
-        hideOverlay();
-        if (!liveFeedStarted) {
-          liveFeedStarted = true;
-          initLiveFeed();
-        }
-        return;
+      function showOverlay(text) {
+        if (text && message) message.textContent = text;
+        if (overlay) overlay.classList.add('visible');
       }
-      showOverlay('Location blocked. Enable it in your browser settings.');
-    }
 
-    if (getLocation()) {
-      liveFeedStarted = true;
-      initLiveFeed();
-    } else {
-      showOverlay('Allow location access to view local weather.');
-    }
+      function hideOverlay() {
+        if (overlay) overlay.classList.remove('visible');
+      }
 
-    handleLocationRequest();
-    if (button) {
-      button.addEventListener('click', handleLocationRequest);
-    }
+      async function handleLocationRequest() {
+        if (message) message.textContent = 'Requesting location...';
+        const coords = await requestLocation();
+        if (coords) {
+          hideOverlay();
+          if (!liveFeedStarted) {
+            liveFeedStarted = true;
+            initLiveFeed();
+          }
+          return;
+        }
+        showOverlay('Location blocked. Enable it in your browser settings.');
+      }
 
-    renderGuilds(document.getElementById('serverGrid'), document.getElementById('searchInput'));
+      if (getLocation()) {
+        liveFeedStarted = true;
+        initLiveFeed();
+      } else {
+        showOverlay('Allow location access to view local weather.');
+      }
+
+      handleLocationRequest();
+      if (button) {
+        button.addEventListener('click', handleLocationRequest);
+      }
+
+      renderGuilds(document.getElementById('serverGrid'), document.getElementById('searchInput'));
+    })();
   </script>
 </body>
 </html>
