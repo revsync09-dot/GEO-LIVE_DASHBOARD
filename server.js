@@ -26,6 +26,10 @@ app.get('/config.js', (_req, res) => {
   res.send(`window.GEOLIVE_CONFIG = ${JSON.stringify(config, null, 2)};`);
 });
 
+app.get('/auth/discord/callback', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'callback.html'));
+});
+
 app.use(express.static(path.join(__dirname)));
 
 app.listen(PORT, () => {
