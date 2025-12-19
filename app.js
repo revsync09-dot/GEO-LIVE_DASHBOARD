@@ -20,9 +20,20 @@ export function ensureAuthenticated() {
 export function hydrateUserBadge() {
   const user = getUser();
   if (!user) return;
+  let defaultIndex = 0;
+  if (user.discriminator && user.discriminator !== '0') {
+    defaultIndex = Number(user.discriminator) % 5;
+  } else {
+    try {
+      defaultIndex = Number((BigInt(user.id) >> 22n) % 6n);
+    } catch {
+      defaultIndex = 0;
+    }
+  }
+
   const avatarUrl = user.avatar
     ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
-    : 'https://cdn.discordapp.com/embed/avatars/1.png';
+    : `https://cdn.discordapp.com/embed/avatars/${defaultIndex}.png`;
 
   document.querySelectorAll('[data-user-avatar]').forEach(el => {
     el.src = avatarUrl;
