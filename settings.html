@@ -313,13 +313,15 @@
     import { handleOAuthRedirect } from './oauth.js';
     import { initSettings } from './settings.js';
 
-    handleOAuthRedirect();
-    ensureAuthenticated();
-    initGlow();
-    hydrateUserBadge();
-    initSettings();
+    (async () => {
+      await handleOAuthRedirect();
+      ensureAuthenticated();
+      initGlow();
+      hydrateUserBadge();
+      initSettings();
 
-    document.getElementById('logoutBtn').addEventListener('click', logout);
+      document.getElementById('logoutBtn').addEventListener('click', logout);
+    })();
   </script>
 </body>
 </html>
