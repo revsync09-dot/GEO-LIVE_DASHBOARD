@@ -51,6 +51,7 @@ export function logout() {
 
 export function renderGuilds(container, searchInput) {
   const guilds = getGuilds();
+  const ownedGuilds = guilds.filter(guild => guild.owner);
   if (!container) return;
 
   function buildInviteUrl(guildId) {
@@ -61,7 +62,7 @@ export function renderGuilds(container, searchInput) {
   function render(list) {
     container.innerHTML = '';
     if (!list.length) {
-      container.innerHTML = '<p class="subtext">No servers found for this user.</p>';
+      container.innerHTML = '<p class="subtext">No owned servers found. Only servers you own appear here.</p>';
       return;
     }
     list.forEach(guild => {
@@ -95,12 +96,12 @@ export function renderGuilds(container, searchInput) {
     });
   }
 
-  render(guilds);
+  render(ownedGuilds);
 
   if (searchInput) {
     searchInput.addEventListener('input', event => {
       const term = event.target.value.toLowerCase();
-      const filtered = guilds.filter(guild => guild.name.toLowerCase().includes(term));
+      const filtered = ownedGuilds.filter(guild => guild.name.toLowerCase().includes(term));
       render(filtered);
     });
   }
