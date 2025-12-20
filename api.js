@@ -3,8 +3,8 @@ const USER_KEY = 'geolive_user';
 const GUILDS_KEY = 'geolive_guilds';
 
 const DEFAULT_CONFIG = {
-  apiBaseUrl: 'https://YOUR-FLY-URL',
-  clientId: 'YOUR_CLIENT_ID',
+  apiBaseUrl: 'https://geolive-bot.fly.dev',
+  clientId: '1450090260200558643',
   scope: 'identify guilds',
   redirectUri: ''
 };
@@ -61,7 +61,7 @@ function resolveRedirectUri(value) {
   if (typeof window !== 'undefined' && window.location?.origin) {
     return `${window.location.origin}/dashboard.html`;
   }
-  return 'https://YOUR-REDIRECT/dashboard.html';
+  return 'https://geo-live-dashboard-434.onrender.com/dashboard.html';
 }
 
 function normalizeConfig(envFile = {}, runtime = {}) {
