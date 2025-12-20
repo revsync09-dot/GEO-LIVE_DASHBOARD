@@ -35,6 +35,7 @@ body {
   color: var(--text);
   min-height: 100vh;
   position: relative;
+  overflow-y: auto;
 }
 
 h1, h2, h3 {
